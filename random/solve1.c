@@ -1,5 +1,5 @@
 //
-// solve.c
+// rand1.c
 //
 
 #include <stdio.h>
@@ -7,10 +7,7 @@
 
 int main()
 {
-    for (int i = 0; i < 0xffff; i++) {
-	srand(i);
-	if (rand() % 0xffff == i)
-	    printf("Here I got it %p %d\n", i, i);
-    }
+    srand(0xdeadbeef);
+    printf("%d\n", rand());
     return 0;
 }

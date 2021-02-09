@@ -46,7 +46,7 @@ void get_password(char *password)
         0x7f61405f, 0xd4f18142, 0x97593079, 0x7f61405f, 0x15d89148,
         0x98e4c061, 0xfa29696e, 0x3a147964, 0xea944021, 0 };
     for (int i = 0; store[i]; i++) {
-	password[i] = store[i];
+	password[i] = decrypt_char(store[i]);
 	password[i + 1] = 0;
     }
 }

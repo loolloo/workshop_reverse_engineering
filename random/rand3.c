@@ -21,10 +21,10 @@ void show_flag(int n)
     }; // "random{WhO_tF_ThOughT_EnCrYptIng_ThE_SeeD_wAs_A_G00d_IdeA?}";
     unsigned char k;
     unsigned char key[4] = {
-	n & 0xff,
-	(n & 0xff00)     >> 8,
-	(n & 0xff0000)   >> 16,
-	(n & 0xff000000) >> 24
+        n & 0xff,
+        (n & 0xff00)     >> 8,
+        (n & 0xff0000)   >> 16,
+        (n & 0xff000000) >> 24
     };
     for (int i = 0; password[i]; i++) {
         k = key[i % 4];
@@ -65,22 +65,22 @@ unsigned int input_to_seed(char *input)
 {
     char c;
     int bytes[] = {
-	0,
-	0,
-	0,
-	0
+        0,
+        0,
+        0,
+        0
     };
 
     if (strlen(input) < 4)
-	return 0x01020304;
+        return 0x01020304;
 
     for (int i = 0; i < 4; i++) {
-	c = input[i];
-	if (c < 'A' || c > 'Z') {
-	    puts("<seed> must be a string of uppercased letters in the range A-Z");
-	    exit(1);
-	}
-	bytes[i] = char_to_byte(c);
+        c = input[i];
+        if (c < 'A' || c > 'Z') {
+            puts("<seed> must be a string of uppercased letters in the range A-Z");
+            exit(1);
+        }
+        bytes[i] = char_to_byte(c);
     }
     return (bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3];
 }
@@ -88,15 +88,15 @@ unsigned int input_to_seed(char *input)
 int main(int ac, char **av)
 {
     if (ac != 2) {
-	puts("Usage: ./rand3 <seed> # seed is a string of uppercased letters");
-	return 1;
+        puts("Usage: ./rand3 <seed> # seed is a string of uppercased letters");
+        return 1;
     }
 
     int n = input_to_seed(av[1]);
     srand(n);
     if (!(int)rand()) {
         puts("Success! You figured out my secret number");
-	show_flag(n);
+        show_flag(n);
     } else {
         puts("Failed! Try your luck next time!");
     }
