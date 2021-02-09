@@ -1,5 +1,5 @@
 //
-// chall4
+// chall3
 //
 
 #include <stdio.h>
@@ -7,50 +7,40 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-
-char *decodePassword(char *encodedPassword, char key)
+char *encoder(char *input)
 {
-    char *decodedPassword = malloc(sizeof(char) * strlen(encodedPassword) + 1);
-
-    for (int i = 0; encodedPassword[i] != '\0'; i++)
-        decodedPassword[i] = encodedPassword[i] ^ key;
-    decodedPassword[strlen(encodedPassword)] = '\0';
-    return (decodedPassword);
+    int key = 1;
+    char *encodedPasswd = malloc(sizeof(char) * strlen(input) + 1);
+    for (int i = 0; input[i] != '\0'; i++) {
+        encodedPasswd[i] = input[i] - key;
+        key++;
+	key %= 0x20;
+    }
+    encodedPasswd[strlen(input)] = '\0';
+    return (encodedPasswd);
 }
 
-void cmp_wide_str(char *input, char *encodedPassword)
+void check(char *input, char *encodedPassword)
 {
-    char *decodedPassword = malloc(sizeof(char) * (strlen(encodedPassword)));
-    int lenEncodedPassword = strlen(encodedPassword) - 1;
-    
-    for (int i = 0; i < strlen(encodedPassword) ; i++) {
-        decodedPassword[i] = encodedPassword[lenEncodedPassword];
-        lenEncodedPassword--;
-    }
-    decodedPassword = decodePassword(decodedPassword, 0x13);
-    for (int index = 0; decodedPassword[index]; index++) {
-        if (input[index] != decodedPassword[index]) {
-            printf("you lost\n");
-            return;
-        }
-    }
-    printf("good you found the flag\n");
-    return;
-}
+    char *encodedInput = encoder(input);
 
-void show_password()
-{
-    char *passwd = "passwd{too easy no ?}";
-    printf(passwd);
+    int i = 0;
+    for (i; encodedInput[i] == encodedPassword[i] && encodedInput[i]; i++);
+
+    if (encodedInput[i]) {
+        printf("Failed !\n");
+    } else {
+        printf("Success you can use this as the flag: %s\n", input);
+    }
 }
 
 int main(int ac, char **av)
 {
-    char *password = "nwar{L`rdLv}|L`z{Ghwd``rc";
+    char password[] = "o_por^tD\\jhSGdjO0M`TTP]GLTHSGKOg^reenYmad[r"; // passwd{Lets_Try_A_shift_encoding_this_time}
     if (ac != 2) {
-        puts("Usage: ./chall4 password");
+        puts("Usage: ./passwd4 <password>");
         return 1;
     }
-    cmp_wide_str(av[1], password);
+    check(av[1], password);
     return 0;
 }

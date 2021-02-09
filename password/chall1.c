@@ -18,7 +18,7 @@ int cmp_wide_str(char *input)
 int main(int ac, char **av)
 {
     if (ac != 2) {
-	puts("Usage: ./chall1 <password>");
+	puts("Usage: ./passwd1 <password>");
 	return 1;
     }
 

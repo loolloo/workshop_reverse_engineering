@@ -1,5 +1,5 @@
 //
-// chall3
+// chall2
 //
 
 #include <stdio.h>
@@ -7,38 +7,49 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-char *encodePassword(char *input)
+int second_check(char *input)
 {
-    int key = 1;
-    char *encodedPasswd = malloc(sizeof(char) * strlen(input) + 1);
-    for (int i = 0; input[i] != '\0'; i++) {
-        encodedPasswd[i] = input[i] + key;
-        key++;
-    }
-    encodedPasswd[strlen(input)] = '\0';
-    return (encodedPasswd);
+    if (input[0] != 'u')
+	return 0;
+    if (input[1] != '_')
+	return 0;
+    if (input[2] != 'p')
+	return 0;
+    if (input[3] != 'a')
+	return 0;
+    if (input[4] != 's')
+	return 0;
+    if (input[5] != 's')
+	return 0;
+    return 1;
 }
 
-void cmp_wide_str(char *input, char *encodedPassword)
+int check(char *input)
 {
-    char *decodedPassword = encodePassword(encodedPassword);
-    for (int i = 0; decodedPassword[i]; i++) {
-        if (input[i] != decodedPassword[i]) {
-            printf("Perdu !\n");
-            return;
-        }
-    }
-    printf("You found it:%s\n", input);
-    return;
+    if (input[0] != 'R')
+	return 0;
+    if (input[1] != 'O')
+	return 0;
+    if (input[2] != 'F')
+	return 0;
+    if (input[4] != '_')
+	return 0;
+    if (input[3] != 'L')
+	return 0;
+    return second_check(&input[5]);
 }
 
 int main(int ac, char **av)
 {
-    char password[] = "o_por^tJ*lZffWn"; //passwd{R3verse} clef hexa : 0x12
     if (ac != 2) {
-        puts("Usage: ./chall3 password");
+        puts("Usage: ./passwd3 <password>");
         return 1;
     }
-    cmp_wide_str(av[1], password);
+
+    if (check(av[1])) {
+	printf("Success! your flag is passwd{%s}\n", av[1]);
+    } else {
+	puts("Failed! You can try again ;)");
+    }
     return 0;
 }
